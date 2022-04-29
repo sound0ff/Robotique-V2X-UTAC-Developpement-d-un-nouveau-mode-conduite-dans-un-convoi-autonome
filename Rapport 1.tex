@@ -1,0 +1,237 @@
+%! Author = Joseph LOUVILLE
+%! Date = 27/04/2022
+
+\documentclass[a4paper]{report}
+\usepackage[a4paper]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[edges]{forest}
+\usepackage{array}
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+
+\newlength\Size
+\setlength\Size{4pt}
+\tikzset{%
+    folder/.pic={%
+        \filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);
+        \filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.15*\Size,-\Size) rectangle (1.15*\Size,\Size);
+    },
+    file/.pic={%
+        \filldraw [draw=folderborder, top color=folderbg!5, bottom color=folderbg!10] (-\Size,.4*\Size+5pt) coordinate (a) |- (\Size,-1.2*\Size) coordinate (b) -- ++(0,1.6*\Size) coordinate (c) -- ++(-5pt,5pt) coordinate (d) -- cycle (d) |- (c) ;
+    },
+}
+\forestset{%
+    declare autowrapped toks={pic me}{},
+    pic dir tree/.style={%
+        for tree={%
+            folder,
+            font=\itshape,
+            grow'=0,
+        },
+        before typesetting nodes={%
+            for tree={%
+                edge label+/.option={pic me},
+            },
+        },
+    },
+    pic me set/.code n args=2{%
+        \forestset{%
+            #1/.style={%
+                inner xsep=2\Size,
+                pic me={pic {#2}},
+            }
+        }
+    },
+    pic me set={directory}{folder},
+    pic me set={file}{file},
+}
+\newcommand{\fname}[2]{\begin{tabular}{m{1cm}@{\quad}m{4cm}}#1 & \normalfont#2\end{tabular}}
+
+
+\begin{document}
+    \begin{titlepage}
+
+        \begin{center}
+
+            \huge{\textbf{Robotique/V2X UTAC Développement d’un nouveau mode conduite dans un convoi autonome}}
+
+            \vspace{2.0cm}
+
+            \normalsize\textbf{Joseph LOUVILLE}
+
+            \vfill
+
+            \LARGE $1^{er}$ rapport bimensuel de stage.
+            \vspace{5cm}
+
+            \large J'atteste que ce travail est original, qu’il est le fruit de mon travail et qu’il a été rédigé de manière autonome.
+
+            \vspace{1cm}
+
+            \raggedleft{Fait à Paris, le 28/04/2022}
+
+        \end{center}
+
+
+
+    \end{titlepage}
+
+    Le constat actuel est que :
+    \begin{itemize}
+        \item Les 4 robots sont codés individuellements et non de manière générique.
+        \item La version de ROS est le ROS 1 kinetic qui a été publié en 2016.
+        \item La version de Gazebo "8.6.0-1"
+        \item Catkin\_tools 0.6.1 (Python 2.7.12)
+        \item Essaie de faire fonctionner le projet, impossible de lancer le \bfseries roslaunch ecebot ecebot\_turtle3.launch \mdseries pour lancer la simulation $\Rightarrow$ possible problème au niveau du package créé.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    On peut créer un package grâce à la commande \bfseries catkin\_create\_pkg \mdseries dans le fichier dossier src.
+
+    Pour ce qui est de la compilation des paquets, une seule commande est nécessaire à partir du répertoire du workspace :
+    \begin{lstlisting}[language=bash]
+ cd ~/catkin_ws/
+ catkin_make
+    \end{lstlisting}
+    \textbf{\url{https://roboticsbackend.com/ros-include-cpp-header-from-another-package/}} est un site qui explique comment mettre en place sur ROS des headers pour les fichiers Cpp.
+
+    \textbf{\url{https://homepages.laas.fr/ostasse/Teaching/ROS/rosintro.pdf}} site tuto mis en place du catkin workspace.
+
+    \section*{Kinetic Kame (May 2016 - May 2021)}
+    \vspace{1cm}
+    Required Support for :
+    \begin{itemize}
+        \item Ubuntu Wily (15.10)
+        \item Ubuntu Xenial (16.04)
+    \end{itemize}
+
+    Recommended Support for:
+    \begin{itemize}
+        \item Debian Jessie
+        \item Fedora 23
+        \item Fedora 24
+    \end{itemize}
+
+    Minimum Requirements:
+    \begin{itemize}
+        \item C++11
+        \item GCC 4.9 on Linux, as it's the version that Debian Jessie ships with
+        \item Python 2.7
+        \item Python 3.4 not required, but testing against it is recommended
+        \item Lisp SBCL 1.2.4
+        \item CMake 3.0.2
+        \item Debian Jessie ships with CMake 3.0.2
+        \item Boost 1.55
+        \item Debian Jessie ships with Boost 1.55
+    \end{itemize}
+
+    \newpage
+
+    Exact or Series Requirements:
+    \begin{itemize}
+        \item Ogre3D 1.9.x
+        \item Gazebo 7
+        \item PCL 1.7.x
+        \item OpenCV 3.x
+        \item Qt 5.3.x
+        \item PyQt5
+    \end{itemize}
+
+    Build System Support:
+
+    \begin{itemize}
+        \item Same as Indigo
+    \end{itemize}
+
+    \vspace{0.5cm}
+
+    Problème d'exécution lors de la compilation \bfseries catkin\_make \mdseries. L'erreur renvoyé par la console est : \textbf{\color{red} fatal error \color{black} custom\_msg.h : no such file or directory}.
+    Déplacement du workspace : pas de résultat.
+
+    essaie de l'utilisation de \bfseries catkin\_make\_isolated \mdseries : meilleure compilation, mais incomplète.
+
+    J'ai fait appelle à Alexandre Ségarat, l'un des créateurs du PFE, pour qu'il puisse m'aider. Il m'a dit qu'il se mettrait en contact avec les anciens de son groupe pour répondre à la question du problème de compilation du projet ROS.
+
+
+    J'ai vu que le problème venait dans la génération des messages à partir des fichiers .msg. J'ai vu qu'il existait des cas similaires, mais dont les solutions sont déjà utilisé dans le projet.
+
+    J'ai finalement trouvé la solution à mon problème. Il semblerait que la génération de messages lors de la compilation ne se faisait pas. Je pense que le problème est du au téléchargement depuis Github, qui a pu corrompre les fichiers de type .msg, ou alors le problème viendrait du catkin, possiblement parce que les dossiers auraient été fait avec une version plus ancienne. Je conseil donc de regénérer un environnement catkin et de transférer les fichiers contenant du code de l'ancien environnement vers le nouveau.
+
+    L'une des solutions proposés sur des forums étaient d'ajouter des dependencies dnas le fichier CMakeLists.txt afin que le package compile d'abord les .msg avant les fichiers .cpp et .h.
+
+    \vspace{0.5cm}
+    \begin{lstlisting}[sh]
+        add_dependencies(custom_package custom_msg_generate_messages_cpp)
+    \end{lstlisting}
+    \vspace{0.5cm}
+    Aussi plusieurs packages manquait lors du lancement du programme.
+
+    Packages à installer par apt-get :
+    \begin{itemize}
+        \item turtlesim (ros-kinetic-turtlesim)
+        \item robot-state-publisher (ros-kinetic-robot-state-publisher)
+        \item turtlebot3 (ros-kinetic-turtlebot3-*)
+        \item std\_msgs (ros-std-msgs)(utiliser le paramètre -y pour cette installation)
+        \item xacro (ros-kinetic-xacro)
+    \end{itemize}
+
+    \vspace{0.5cm}
+    Revenons sur le design de catkin:
+
+    Le workspace a cette aspect initialement:
+
+    \begin{forest}
+        pic dir tree,
+        where level=0{}{% folder icons by default; override using file for file icons
+            directory,
+        },
+        [catkin\_ws
+        [build]
+        [devel]
+        [src
+        [custom\_package]
+        [$\ldots$]
+        [CMakeLists.txt,file]
+        ]
+        ]
+    \end{forest}
+    \vspace{0.5cm}
+
+    \textbf{catkin\_ws} va être l'espace où le code va être compiler et générer les programmes d'exécution vers les dossiers \textbf{build} et \textbf{devel}. Pour créer nos packages et mettre notre code ROS, il faut aller dans src. pour créer un package, il faut utiliser la commande :
+    \vspace{0.5cm}
+    \begin{lstlisting}[sh]
+~$catkin_create_pkg[nom_du_package] dependance_1 dependance_2 ...
+    \end{lstlisting}
+    \vspace{0.5cm}
+    Dans le package, on trouve :
+
+    \begin{forest}
+        pic dir tree,
+        where level=0{}{% folder icons by default; override using file for file icons
+            directory,
+        },
+        [custom\_pkg
+        [include]
+        [src]
+        [package.xml,file]
+        [CMakeLists.txt,file]
+        ]
+    \end{forest}
+
+    \vspace{0.5cm}
+
+    Les dossiers \textbf{include} et \textbf{src} sont utilisés pour intégrer les fichiers sous format .h .cpp et .py, qui vont contenir les formules mathématiques et les commandes ROS.
+    Pour ce qui est des messages, il est recommandé de faire un dossier spécialisé pour stocker les fichiers .msg.
+    Cette chaîne youtube parle très bien du développement et de la création de projet ROS \textbf{\url{https://www.youtube.com/channel/UC5ZQinPsJ4C8YiauoT8xZUg}}
+
+    Afin de faire compiler le projet il faut appeler la fonction \textbf{catkin\_make} depuis le dossier root, ici dans notre exemple \textbf{catkin\_ws}. Si les dossiers build et devel ont été importés ou déplacés, il est nécessaire de les supprimés avant de compiler le projet.
+
+    A partir de ce point normalement, on pait désigner comme source de projet le fichier \textbf{setup.bash} dans le dossier \textbf{devel} afin de pouvoir faire appel des fonctions de ROS dans la fenêtre de commande et qu'elles s'appliquent au projet compilé.
+
+    Les fonctions ROS intéressantes que j'ai pu voir sont \textbf{roslaunch [launch\_package] fichier\_launch.launch}, qui permet de lancer la simulation d'un package qui possède un fichier .launch associé, \textbf{rosrun nom\_de\_node}, qui permet de faire fonctionner un n\oe ud.
+
+\end{document}
