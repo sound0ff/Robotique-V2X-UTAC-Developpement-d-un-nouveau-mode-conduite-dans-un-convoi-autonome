@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="071b7643-b7d2-4a0b-baa6-0bdb9e7ef1bb" name="Changes" comment="organisation rendu" />
+    <list default="true" id="071b7643-b7d2-4a0b-baa6-0bdb9e7ef1bb" name="Changes" comment="organisation rendu">
+      <change afterPath="$PROJECT_DIR$/Manuel/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Présentation et mémoire/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Présentation/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Rapport/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Références/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code et librairies/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +25,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="28TQSA79JRmvOH2eq0EzzZxA9K9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -30,6 +39,9 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
@@ -48,7 +60,7 @@
         <viewer-command />
         <compiler-arguments />
         <envs />
-        <main-file>$PROJECT_DIR$/Rapport 1.tex</main-file>
+        <main-file />
         <output-path>$PROJECT_DIR$/Rapport</output-path>
         <auxil-path>{projectDir}/auxil</auxil-path>
         <compile-twice>false</compile-twice>
@@ -75,6 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1651238093679</updated>
       <workItem from="1651238095238" duration="1420000" />
+      <workItem from="1651314163057" duration="355000" />
     </task>
     <task id="LOCAL-00001" summary="nom dossier rapport">
       <created>1651238691516</created>
